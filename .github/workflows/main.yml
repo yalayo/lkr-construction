@@ -55,6 +55,7 @@ jobs:
 
         run: |
             cd ./projects/infrastructure/terraform
+            ls -l
             terraform init
             terraform apply tfplan   
       - name: Install clojure tools
