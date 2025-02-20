@@ -56,7 +56,7 @@ jobs:
         run: |
             cd ./projects/infrastructure/terraform
             terraform init
-            terraform apply tfplan -auto-approve     
+            terraform apply tfplan   
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@11.0
         with:
