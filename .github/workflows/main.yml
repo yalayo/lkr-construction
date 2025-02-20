@@ -3,10 +3,16 @@ name: CICD
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        default: "production"
 
 jobs:
-  infrastructure:
-    name: Create/Update the general infrastructure
+  terraform-plan:
+    name: Suggest chages if any
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +27,36 @@ jobs:
         run: |
             cd ./projects/infrastructure/terraform
             terraform init
-            terraform plan
+            terraform plan -out=tfplan
+      - name: Save Terraform Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: ./projects/infrastructure/terraform/tfplan
+  terraform-apply:
+    name: Apply chages if any
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: ./projects/infrastructure/terraform/tfplan
+      - name: Apply
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+        run: |
+            cd ./projects/infrastructure/terraform
+            terraform init
+            terraform apply tfplan -auto-approve     
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@11.0
         with:
