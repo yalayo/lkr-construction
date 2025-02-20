@@ -5,11 +5,23 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
-    name: Deploy to OCI
+  infrastructure:
+    name: Create/Update the general infrastructure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Deploy with Terraform
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+        run: |
+            cd ./projects/ifrastructure/terraform
+            terraform init
+            terraform plan
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@11.0
         with:
