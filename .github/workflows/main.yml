@@ -19,7 +19,7 @@ jobs:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
         run: |
-            cd ./projects/ifrastructure/terraform
+            cd ./projects/infrastructure/terraform
             terraform init
             terraform plan
       - name: Install clojure tools
