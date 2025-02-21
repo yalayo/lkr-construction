@@ -2,6 +2,14 @@
 cd projects/main
 clojure -M -m app.main.core
 
+Running the project locally
+```shell
+cd projects/cloudflare/
+npm i # install NPM deps
+npm run dev # run dev build in watch mode with CLJS REPL
+npx wrangler dev out/main.js # run Cloudflare server at http://localhost:8787
+```
+
 ## Devops
 Connect to the instance
 ssh -i instance.key ubuntu@129.151.206.131
