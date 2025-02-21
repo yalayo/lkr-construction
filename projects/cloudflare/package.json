@@ -2,7 +2,7 @@
     "name": "lkr-construction",
     "scripts": {
       "dev": "shadow-cljs watch server -A:dev & npm run styles-dev",
-      "release": "shadow-cljs release server",
+      "release": "shadow-cljs release server -A:dev",
       "styles-dev": "npx @tailwindcss/cli -i ../../components/web/resources/public/core.css -o ./public/main.css --watch",
       "styles-release": "npx @tailwindcss/cli -i ./src/app/core.css -o ./public/main.css --minify"
     },
