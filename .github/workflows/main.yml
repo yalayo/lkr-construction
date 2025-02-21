@@ -28,8 +28,7 @@ jobs:
           cd ./projects/cloudflare/
           npm install
           npm run release
-          ls -l out/
-          cp out/server.js terraform/
+          cp out/main.js terraform/
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
