@@ -34,7 +34,7 @@ jobs:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
         run: |
-            cd ./projects/main/terraform
+            cd ./projects/cloudflare/terraform
             terraform init
             terraform apply -auto-approve
   terraform-plan:
