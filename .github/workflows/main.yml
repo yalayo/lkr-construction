@@ -27,7 +27,8 @@ jobs:
         run: |
           cd ./projects/cloudflare/
           npm install
-          npx shadow-cljs release server
+          npm run release
+          ls -l
           cp build/server.js terraform/
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
