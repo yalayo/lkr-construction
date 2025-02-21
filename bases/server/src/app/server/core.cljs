@@ -17,9 +17,9 @@
                          [(-> route :data :name) (keyword (.-method ^js request))]))
 
 (defmethod handle-route [::todos :GET] [route request env ctx]
-  (js-await [{:keys [success results]} {:sucess true :results {:hello :world}}]
+  (js-await [{:keys [success results]} {:success true :results {:hello :world}}]
             (if success
-              (cf/response-edn {:result results} {:status 200})
+              (cf/response-edn results {:status 200})
               (cf/response-error))))
 
 ;; entry point
