@@ -1,0 +1,7 @@
+{:deps true
+ :builds {:server
+          {:target :esm
+           :output-dir "out"
+           :modules {:main {:exports {default app.server.core/handler}}}
+           :js-options {:js-provider :import}
+           :devtools {:enabled false}}}}
