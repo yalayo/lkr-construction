@@ -1,8 +1,8 @@
 name: CICD
 
 on:
-  #push:
-    #branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       environment:
@@ -11,6 +11,32 @@ on:
         default: "production"
 
 jobs:
+  build:
+    name: Build with shadow-cljs
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the nodejs app
+        run: |
+          cd ./projects/cloudflare/
+          npm install
+          npx shadow-cljs release server
+          cp build/server.js terraform/
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Deploy with Terraform
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+        run: |
+            cd ./projects/main/terraform
+            terraform init
+            terraform apply -auto-approve
   terraform-plan:
     name: Suggest chages if any
     runs-on: ubuntu-latest
