@@ -27,6 +27,56 @@
         "mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8"}
        "In order to get moving fast select what you need and we&#39;ll get in touch."]
       [:div
+       {:class "mt-10"}
+       [:fieldset
+        {:aria-label "Choose a size", :class "mt-4"}
+        [:div
+         {:class "grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"}
+         [:label
+          {:class
+           "group relative flex cursor-pointer items-center justify-center rounded-md border bg-white px-4 py-3 text-sm font-medium text-gray-900 uppercase shadow-xs hover:bg-gray-50 focus:outline-hidden sm:flex-1 sm:py-6"}
+          [:input
+           {:type "radio",
+            :name "size-choice",
+            :value "XL",
+            :class "sr-only"}]
+          [:span "PL"]
+          [:span
+           {:class "pointer-events-none absolute -inset-px rounded-md",
+            :aria-hidden "true"}]]
+         [:label
+          {:class
+           "group relative flex cursor-pointer items-center justify-center rounded-md border bg-white px-4 py-3 text-sm font-medium text-gray-900 uppercase shadow-xs hover:bg-gray-50 focus:outline-hidden sm:flex-1 sm:py-6"}
+          [:input
+           {:type "radio",
+            :name "size-choice",
+            :value "2XL",
+            :class "sr-only"}]
+          [:span "EL"]
+          [:span
+           {:class "pointer-events-none absolute -inset-px rounded-md",
+            :aria-hidden "true"}]]]]]
+      [:div
+       [:label
+        {:for "phone", :class "block text-sm/6 font-medium text-gray-900"}
+        "Phone number"]
+       [:div
+        {:class "mt-2"}
+        [:div
+         {:class
+          "flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"}
+         [:div
+          {:class
+           "shrink-0 text-base text-gray-500 select-none sm:text-sm/6"}
+          "+1"]
+         [:input
+          {:type "text",
+           :name "phone",
+           :id "phone",
+           :class
+           "block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6",
+           :placeholder "000-0000-000"}]]]]
+      [:div
        {:class "mt-10 flex items-center justify-center gap-x-6"}
        [:a
         {:href "#",
