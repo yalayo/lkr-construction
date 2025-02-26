@@ -26,7 +26,7 @@
               (cf/response-error))))
 
 (defmethod handle-route [::index :GET] [route request env ctx]
-  (js-await [html (html/respond (index/index-page) "Index")]
+  (js-await [html (html/respond (index/index-page) "LKR Construction")]
             (cf/response-html html {:status 200})))
 
 #_(defmethod handle-route [::favicon :GET] [route request env ctx]
