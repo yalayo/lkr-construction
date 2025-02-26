@@ -1,12 +1,15 @@
 (ns app.server.core
   (:require [reitit.core :as r]
             [app.server.async :refer [js-await]]
-            [app.server.cf :as cf :refer [defclass]]))
+            [app.server.cf :as cf :refer [defclass]]
+            [app.html.index :as index]
+            [app.html.core :as html]))
 
 (def router
   (r/router
-   ["/api"
-    ["/todos" ::todos]]))
+   [["/todos" ::todos]
+    ["/" ::index]
+    #_["/favicon.ico" ::favicon]]))
 
 ;; args:
 ;;  route: Reitit route data
@@ -21,6 +24,13 @@
             (if success
               (cf/response-edn results {:status 200})
               (cf/response-error))))
+
+(defmethod handle-route [::index :GET] [route request env ctx]
+  (js-await [html (html/respond (index/index-page) "Index")]
+            (cf/response-html html {:status 200})))
+
+#_(defmethod handle-route [::favicon :GET] [route request env ctx]
+  (cf/serve-favicon))
 
 ;; entry point
 (def handler
