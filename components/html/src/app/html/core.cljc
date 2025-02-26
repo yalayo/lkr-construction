@@ -11,8 +11,9 @@
     [:title title]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]
     [:link {:href "tailwind.min.css" :rel "stylesheet"}]
-    [:script {:src "htmx.min.js"}]
-    [:script {:src "hyperscript.min.js"}]]
+    [:script {:src "https://unpkg.com/@tailwindcss/browser@4"}]
+    [:script {:src "https://unpkg.com/htmx.org@2.0.4"}]
+    [:script {:src "https://unpkg.com/hyperscript.org@0.9.14"}]]
    [:body (html html-body)]])
 
 (defn ok [body]
