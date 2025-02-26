@@ -4,6 +4,7 @@
   (:require [clojure.edn :as edn]
             [reitit.core :as r]
             [app.server.async :refer [js-await]]
+            #_[cljs.nodejs :as nodejs]
             [goog.object]))
 
 ;; each incoming request to a worker binds the following vars
@@ -21,6 +22,12 @@
   [body init]
   (response (pr-str body)
             (assoc-in init [:headers "Content-Type"] "text/edn")))
+
+(defn response-html
+  "Returns an HTML response with appropriate headers"
+  [body init]
+  (response body
+            (assoc-in init [:headers "Content-Type"] "text/html; charset=UTF-8")))
 
 (defn response-error
   ([]
@@ -52,6 +59,18 @@
       (reset! DB (.-DB env))
       (js/Promise. (fn [resolve reject]
                      (resolve (handler (with-params url route) request env ctx)))))))
+
+#_(def fs (nodejs/require "fs"))
+
+#_(defn serve-favicon []
+  (try
+    (let [favicon-path "resource/public/favicon.ico"
+          read-file-sync (goog.object/get fs "readFileSync")
+           data (read-file-sync favicon-path)] ;; Call the function dynamically
+      (js/Response. data #js {:status 200
+                              :headers #js {"Content-Type" "image/x-icon"}}))
+    (catch js/Error e
+      (js/Response. "Favicon not found" #js {:status 404}))))
 
 (defn js->clj
   "Recursively transforms JavaScript arrays into ClojureScript
